@@ -22,14 +22,30 @@ services:
     ports:
       - "8000:8000"
     environment:
+      # --- auth (set both in .env; never commit them) ---
+      API_KEY: ${API_KEY:?API_KEY must be set in .env}
+      PII_REVEAL_KEY: ${PII_REVEAL_KEY:-}
+      # --- storage ---
       QDRANT_URL: http://qdrant:6333
       QDRANT_COLLECTION: pdf_chunks
+      QDRANT_DOCUMENTS_COLLECTION: pdf_documents
       S3_BUCKET_NAME: ${S3_BUCKET_NAME:-jm-dap-dev-landing-o-use1}
       AWS_REGION: ${AWS_REGION:-us-east-1}
       AWS_PROFILE: ${AWS_PROFILE:-default}
+      S3_SSE_MODE: ${S3_SSE_MODE:-AES256}
+      S3_KMS_KEY_ID: ${S3_KMS_KEY_ID:-}
+      # --- embeddings / chunking ---
       EMBEDDING_MODEL: all-MiniLM-L6-v2
       CHUNK_SIZE: "1000"
       CHUNK_OVERLAP: "150"
+      # --- PII ---
+      PII_MODE: ${PII_MODE:-tokenize}
+      SPACY_MODEL: en_core_web_sm
+      PII_SCORE_THRESHOLD: "0.4"
+      PII_TOKENIZE_ENTITIES: ${PII_TOKENIZE_ENTITIES:-PERSON,ADDRESS,PHONE_NUMBER}
+      # --- enrichment providers ---
+      HOME_VALUE_PROVIDER: ${HOME_VALUE_PROVIDER:-mock}
+      OCCUPATION_PROVIDER: ${OCCUPATION_PROVIDER:-mock}
     volumes:
       - model_cache:/root/.cache/torch/sentence_transformers
       - ${HOME}/.aws:/root/.aws:ro
