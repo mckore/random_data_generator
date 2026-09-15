@@ -1,7 +1,7 @@
 # PDF Entity Extraction + Enrichment with Built-in PII Protection
 
-> **Status: design only — not yet implemented.** Saved for reference. Builds on the
-> baseline service in `pdf_rag_service/` (PR #1). Also tracked as future
+> **Status: implemented** (see README for usage). Originally saved as a design reference. Builds on the
+> baseline service in `pdf_rag_service/` (PR #1). Implemented on branch `pdf-entity-enrichment`. Also tracked as future
 > enhancements: an MCP server wrapper over `services/`, and a caching layer
 > (Redis) once query/upload load justifies it.
 
