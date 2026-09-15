@@ -54,6 +54,18 @@ curl -X POST http://localhost:8000/search \
   -d '{"query": "termination clause", "top_k": 3}'
 ```
 
+## Testing
+A test suite covers PDF parsing/chunking logic, the S3 object store (mocked
+with `moto`, no real AWS calls), and the API endpoints (with the embedding,
+vector store, and object store services mocked). It does not require Docker,
+Qdrant, S3, or the embedding model to be available.
+```bash
+cd app
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements-dev.txt
+pytest
+```
 ## Caveats
 
 - PyMuPDF only extracts text from digital-native PDFs; scanned/image-only

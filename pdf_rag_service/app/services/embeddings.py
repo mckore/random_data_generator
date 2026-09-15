@@ -1,14 +1,22 @@
 from functools import lru_cache
-from typing import List
-
-from sentence_transformers import SentenceTransformer
+from typing import TYPE_CHECKING, List
 
 from config import settings
 
+if TYPE_CHECKING:
+    from sentence_transformers import SentenceTransformer
+
 
 @lru_cache(maxsize=1)
-def get_model() -> SentenceTransformer:
-    """Lazily load and cache the embedding model (loaded once per process)."""
+def get_model() -> "SentenceTransformer":
+    """Lazily load and cache the embedding model (loaded once per process).
+
+    The import is deferred so that modules/tests importing this file don't
+    need the heavy `sentence-transformers`/`torch` stack installed unless a
+    model is actually requested.
+    """
+    from sentence_transformers import SentenceTransformer
+
     return SentenceTransformer(settings.embedding_model)
 
 
